@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { FuelTypeSchema, PhaseTypeSchema } from './selector';
+import { FuelTypeSchema, LoadTypeSchema, PhaseTypeSchema } from './selector';
 import { CurrencySchema, SegmentSchema } from './enums';
 
 /** Ціна для конкретного сегмента та валюти. */
@@ -45,3 +45,20 @@ export const CatalogQuerySchema = z.object({
   perPage: z.number().int().positive().max(100).default(24),
 });
 export type CatalogQuery = z.infer<typeof CatalogQuerySchema>;
+
+/** Доступні значення фасетів для фільтрів каталогу. */
+export const CatalogFacetsSchema = z.object({
+  brands: z.array(z.object({ slug: z.string(), name: z.string() })),
+  fuels: z.array(FuelTypeSchema),
+});
+export type CatalogFacets = z.infer<typeof CatalogFacetsSchema>;
+
+/** Пресет типової техніки для форми підбору. */
+export const EquipmentPresetSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  powerW: z.number().int().positive(),
+  loadType: LoadTypeSchema,
+  category: z.string().nullable().optional(),
+});
+export type EquipmentPreset = z.infer<typeof EquipmentPresetSchema>;

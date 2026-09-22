@@ -36,6 +36,16 @@ export class CatalogController {
     return this.catalog.list(query, this.segment(q.segment));
   }
 
+  @Get('facets')
+  facets() {
+    return this.catalog.facets();
+  }
+
+  @Get('equipment-presets')
+  presets() {
+    return this.catalog.equipmentPresets();
+  }
+
   @Get('products/:slug')
   getOne(@Param('slug') slug: string, @Query('segment') segment?: string) {
     return this.catalog.getBySlug(slug, this.segment(segment));

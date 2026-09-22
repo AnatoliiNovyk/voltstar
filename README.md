@@ -78,7 +78,5 @@ pnpm test        # тести
 
 ## CI
 
-Конфіг GitHub Actions лежить у `.github/workflows/ci.yml.disabled` — тимчасово
-деактивований (розширення `.disabled`, тож GitHub його не запускає), доки для
-акаунта не розблокують виконання Actions. Щоб увімкнути CI, перейменуйте файл
-назад у `ci.yml`. Пайплайн: install → prisma generate → lint → typecheck → test → build.
+GitHub Actions: `.github/workflows/ci.yml`. Пайплайн на кожен push/PR:
+install → prisma generate → lint → typecheck → test → build.

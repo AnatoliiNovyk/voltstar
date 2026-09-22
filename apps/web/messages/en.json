@@ -59,7 +59,8 @@
       "recommended": "Recommended power",
       "kva": "Apparent power",
       "cta": "Find in catalog"
-    }
+    },
+    "preset": { "add": "Quick-add equipment", "choose": "Pick from list…" }
   },
   "catalog": {
     "title": "Generator catalog",
@@ -73,6 +74,24 @@
     "details": "Details",
     "backToCatalog": "← Back to catalog",
     "specs": "Specifications",
-    "notFound": "Product not found."
+    "notFound": "Product not found.",
+    "filters": {
+      "search": "Search by name",
+      "brand": "Brand",
+      "fuel": "Fuel",
+      "phase": "Phases",
+      "inStock": "In stock only",
+      "apply": "Apply",
+      "reset": "Reset",
+      "all": "All"
+    },
+    "fuels": {
+      "PETROL": "Petrol",
+      "DIESEL": "Diesel",
+      "GAS": "Gas",
+      "DUAL_FUEL": "Dual fuel",
+      "INVERTER": "Inverter"
+    },
+    "phases": { "SINGLE": "1 phase", "THREE": "3 phase" }
   }
 }

@@ -1,4 +1,10 @@
-import type { PowerCalculation, Product, SelectorInput } from '@voltstar/types';
+import type {
+  CatalogFacets,
+  EquipmentPreset,
+  PowerCalculation,
+  Product,
+  SelectorInput,
+} from '@voltstar/types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
 
@@ -29,6 +35,20 @@ export async function fetchProduct(slug: string, segment = 'B2C'): Promise<Produ
     cache: 'no-store',
   });
   if (!res.ok) throw new Error(`product request failed: ${res.status}`);
+  return res.json();
+}
+
+/** Доступні бренди та типи палива для фільтрів каталогу. */
+export async function fetchFacets(): Promise<CatalogFacets> {
+  const res = await fetch(apiUrl('/catalog/facets'), { cache: 'no-store' });
+  if (!res.ok) throw new Error(`facets request failed: ${res.status}`);
+  return res.json();
+}
+
+/** Пресети типової техніки для форми підбору. */
+export async function fetchPresets(): Promise<EquipmentPreset[]> {
+  const res = await fetch(apiUrl('/catalog/equipment-presets'), { cache: 'no-store' });
+  if (!res.ok) throw new Error(`presets request failed: ${res.status}`);
   return res.json();
 }
 

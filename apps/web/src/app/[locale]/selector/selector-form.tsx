@@ -1,17 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   LoadType,
   PhaseType,
   UsageMode,
+  type EquipmentPreset,
   type LoadItem,
   type PhaseType as PhaseT,
   type PowerCalculation,
   type UsageMode as UsageModeT,
 } from '@voltstar/types';
-import { calculatePower } from '../../../lib/api';
+import { calculatePower, fetchPresets } from '../../../lib/api';
 
 let nextId = 1;
 type Row = LoadItem & { _id: number };
@@ -34,6 +35,19 @@ export function SelectorForm() {
   const [result, setResult] = useState<PowerCalculation | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [presets, setPresets] = useState<EquipmentPreset[]>([]);
+
+  useEffect(() => {
+    fetchPresets()
+      .then(setPresets)
+      .catch(() => setPresets([]));
+  }, []);
+
+  const addPreset = (id: string) => {
+    const p = presets.find((x) => x.id === id);
+    if (!p) return;
+    setRows((rs) => [...rs, { ...newRow(), label: p.label, powerW: p.powerW, loadType: p.loadType }]);
+  };
 
   const patch = (id: number, p: Partial<Row>) =>
     setRows((rs) => rs.map((r) => (r._id === id ? { ...r, ...p } : r)));
@@ -118,13 +132,33 @@ export function SelectorForm() {
         ))}
       </div>
 
-      <button
-        type="button"
-        className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium hover:bg-neutral-50"
-        onClick={() => setRows((rs) => [...rs, newRow()])}
-      >
-        + {t('addItem')}
-      </button>
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium hover:bg-neutral-50"
+          onClick={() => setRows((rs) => [...rs, newRow()])}
+        >
+          + {t('addItem')}
+        </button>
+        {presets.length > 0 && (
+          <select
+            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+            aria-label={t('preset.add')}
+            value=""
+            onChange={(e) => {
+              if (e.target.value) addPreset(e.target.value);
+              e.target.value = '';
+            }}
+          >
+            <option value="">{t('preset.add')}: {t('preset.choose')}</option>
+            {presets.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.label} ({(p.powerW / 1000).toFixed(2)} кВт)
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
         <label className="text-sm">

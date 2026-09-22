@@ -1,6 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
-import type { CatalogQuery, Product, Segment } from '@voltstar/types';
+import type {
+  CatalogFacets,
+  CatalogQuery,
+  EquipmentPreset,
+  Product,
+  Segment,
+} from '@voltstar/types';
 import { PrismaService } from '../../prisma/prisma.service';
 
 const productInclude = {
@@ -53,6 +59,27 @@ export class CatalogService {
       page: query.page,
       perPage: query.perPage,
     };
+  }
+
+  /** Доступні бренди та типи палива для фільтрів каталогу. */
+  async facets(): Promise<CatalogFacets> {
+    const [brands, fuels] = await Promise.all([
+      this.prisma.brand.findMany({ orderBy: { name: 'asc' }, select: { slug: true, name: true } }),
+      this.prisma.product.findMany({ distinct: ['fuel'], select: { fuel: true } }),
+    ]);
+    return { brands, fuels: fuels.map((f) => f.fuel) };
+  }
+
+  /** Пресети типової техніки для форми підбору. */
+  async equipmentPresets(): Promise<EquipmentPreset[]> {
+    const rows = await this.prisma.equipmentPreset.findMany({ orderBy: { label: 'asc' } });
+    return rows.map((r) => ({
+      id: r.id,
+      label: r.label,
+      powerW: r.powerW,
+      loadType: r.loadType as EquipmentPreset['loadType'],
+      category: r.category,
+    }));
   }
 
   async getBySlug(slug: string, segment: Segment = 'B2C'): Promise<Product> {

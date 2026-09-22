@@ -75,3 +75,10 @@ pnpm test        # тести
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — системна архітектура
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — покроковий план по фазах
 - [`docs/CHECKLIST.md`](docs/CHECKLIST.md) — детальний чек-лист
+
+## CI
+
+Конфіг GitHub Actions лежить у `.github/workflows/ci.yml.disabled` — тимчасово
+деактивований (розширення `.disabled`, тож GitHub його не запускає), доки для
+акаунта не розблокують виконання Actions. Щоб увімкнути CI, перейменуйте файл
+назад у `ci.yml`. Пайплайн: install → prisma generate → lint → typecheck → test → build.

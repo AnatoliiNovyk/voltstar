@@ -18,17 +18,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Версію pnpm беремо з поля "packageManager" у package.json.
-      # Не передаємо `version` тут, інакше pnpm/action-setup@v4 падає з
-      # ERR_PNPM_BAD_PM_VERSION ("Multiple versions of pnpm specified").
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+
+      # pnpm піднімаємо через Corepack (вбудований у Node), а не через
+      # сторонній pnpm/action-setup — щоб CI працював навіть за суворої
+      # політики allow-list у Settings → Actions (лише GitHub-авторські
+      # actions/checkout та actions/setup-node). Версія pnpm береться з
+      # поля "packageManager" у package.json.
+      - name: Enable pnpm via Corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

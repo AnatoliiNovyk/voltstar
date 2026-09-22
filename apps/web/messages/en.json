@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "title": "VOLTSTAR — generators for home and business",
+    "description": "Generator selection, catalog and online purchase. B2C · B2B · B2G."
+  },
+  "nav": {
+    "catalog": "Catalog",
+    "selector": "Selector",
+    "b2b": "For business",
+    "contacts": "Contacts"
+  },
+  "hero": {
+    "title": "A generator for any equipment",
+    "subtitle": "We calculate the required power and pick the optimal model from the most complete catalog.",
+    "ctaSelector": "Find a generator",
+    "ctaCatalog": "Browse catalog"
+  },
+  "segments": {
+    "title": "We serve every segment",
+    "b2c": { "title": "Private customers", "text": "Retail prices and instant online payment." },
+    "b2b": { "title": "Business", "text": "Wholesale prices, invoice payment, personal manager." },
+    "b2g": { "title": "Government", "text": "Tender document flow and reporting." }
+  },
+  "features": {
+    "selector": "Smart power-based selection",
+    "catalog": "The most complete generator catalog",
+    "payment": "Secure online payment",
+    "crm": "Support at every stage"
+  }
+}
